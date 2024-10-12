@@ -1,0 +1,126 @@
+package com.khaledamin.moviesapplication.presentation.list
+
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.khaledamin.moviesapplication.R
+import com.khaledamin.moviesapplication.databinding.FragmentMoviesListBinding
+import com.khaledamin.moviesapplication.domain.model.Movie
+import com.khaledamin.moviesapplication.presentation.abstracts.BaseFragment
+import com.khaledamin.moviesapplication.presentation.model.Tab
+import com.khaledamin.moviesapplication.utils.NetworkUtil
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class MoviesListFragment :
+    BaseFragment<FragmentMoviesListBinding>(), TabCallback, MovieCallback,
+    MovieFavoriteButtonCallback {
+    override val layout: Int
+        get() = R.layout.fragment_movies_list
+
+    private val viewModel: MoviesListViewModel by viewModels()
+
+    private var sortBy = "popularity.desc"
+    private lateinit var moviesAdapter: MoviesListAdapter
+    private lateinit var tabsAdapter: TabsAdapter
+    private lateinit var pagingAdapter: MoviesAdapter
+    private var tabsList =
+        arrayListOf(
+            Tab(mapOf("Most Popular" to "popularity.desc"), false),
+            Tab(mapOf("Highest Rated" to "vote_average.desc"), false),
+            Tab(mapOf("Favorites" to "favorites"), false)
+        )
+
+//        mapOf(
+//            "Most Popular" to "popularity.desc",
+//            "Highest Rated" to "vote_average.desc",
+//            "Favorites" to "favorites"
+//        )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        moviesAdapter = MoviesListAdapter(requireContext(), ArrayList(), this, this)
+        tabsAdapter = TabsAdapter(tabsList, this)
+        pagingAdapter = MoviesAdapter(callback = {
+            findNavController().navigate(
+                MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailsFragment(
+                    it
+                )
+            )
+        }, this)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupObservers()
+        viewBinding.tabsList.adapter = tabsAdapter
+        viewBinding.tabsList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        viewBinding.moviesList.adapter = pagingAdapter
+        viewBinding.moviesList.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.getMoviesByPaging(sortBy, NetworkUtil.isInternetAvailable(requireContext()))
+            .observe(viewLifecycleOwner) {
+                pagingAdapter.submitData(lifecycle, it)
+            }
+        viewModel.getFavoriteMovies()
+    }
+
+    private fun setupObservers() {
+        viewModel.favoriteMoviesList.observe(viewLifecycleOwner) {
+                moviesAdapter.updateData(it)
+            }
+            viewModel.showToast.observe(viewLifecycleOwner) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
+            viewModel.showProgress.observe(viewLifecycleOwner) {
+                if (it) {
+                    viewBinding.progressBar.visibility = View.VISIBLE
+                } else {
+                    viewBinding.progressBar.visibility = View.GONE
+                }
+            }
+//        viewModel.showMoviesByPaging.observe(viewLifecycleOwner) {
+//            try {
+//                pagingAdapter.submitData(lifecycle = lifecycle, pagingData = it)
+//            } catch (e:Exception){
+//                Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
+//            }
+//        }
+        }
+
+        override fun onTabClicked(tab: Tab) {
+            sortBy = tab.title.values.elementAt(0)
+            if (sortBy == "favorites") {
+                viewBinding.moviesList.adapter = moviesAdapter
+                viewBinding.moviesList.layoutManager = LinearLayoutManager(requireContext())
+                viewModel.getFavoriteMovies()
+            } else {
+                viewBinding.moviesList.adapter = pagingAdapter
+                viewBinding.moviesList.layoutManager = LinearLayoutManager(requireContext())
+                viewModel.getMoviesByPaging(
+                    sortBy,
+                    NetworkUtil.isInternetAvailable(requireContext())
+                )
+                    .observe(viewLifecycleOwner) {
+                        pagingAdapter.submitData(lifecycle, it)
+                    }
+            }
+        }
+
+        override fun onMovieClicked(movie: Movie) {
+            findNavController().navigate(
+                MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailsFragment(
+                    movie
+                )
+            )
+        }
+
+        override fun onFavoriteButtonClicked(movie: Movie, isFavorite:Boolean) {
+            viewModel.setMovieFavoriteOrNot(movie.id!!, isFavorite)
+            viewModel.getFavoriteMovies()
+        }
+    }

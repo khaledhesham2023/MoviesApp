@@ -1,0 +1,11 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MoviesApplication" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/deep_blue</item>
+        <item name="colorPrimaryDark">@color/midnight_blue</item>
+        <item name="colorAccent">@color/silver</item>
+    </style>
+
+    <style name="Theme.MoviesApplication" parent="Base.Theme.MoviesApplication" />
+</resources>
