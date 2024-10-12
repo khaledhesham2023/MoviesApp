@@ -17,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesListViewModel @Inject constructor(
-//    private val useCases: GetMoviesUseCases,
     private val favoriteUseCase: SetMovieFavoriteUseCase,
     private val pagingUseCases: GetMoviesByPagingUseCases,
     private val favoriteMoviesUseCase: GetFavoriteMoviesUseCase,
@@ -42,43 +41,9 @@ class MoviesListViewModel @Inject constructor(
         return pager
     }
 
-//    private var _moviesList = MutableLiveData<PagingData<Movie>>()
-//    val moviesList: LiveData<PagingData<Movie>>
-//        get() = _moviesList
-
-//    fun getPopularMovies(page: Int, sortBy: String, fetchFromRemote: Boolean) =
-//        viewModelScope.launch {
-//            _showProgress.value = true
-//            useCases.invoke(page, sortBy, fetchFromRemote).collectLatest {
-//                when (it) {
-//                    is State.Success -> {
-//                        _moviesList.value = it.data!!
-//                        _showProgress.value = false
-//                    }
-//
-//                    is State.Error -> {
-//                        _showProgress.value = false
-//                        _showToast.value = it.message
-//                    }
-//                }
-//            }
-//            _showProgress.value = false
-//        }
-
     fun getFavoriteMovies() = viewModelScope.launch {
         _favoriteMoviesList.value = favoriteMoviesUseCase.invoke()
     }
-
-//    fun getPopularMovies(page: Int, sortBy: String): Flow<PagingData<Movie>> =
-//        viewModelScope.launch {
-//
-//        }
-//    _showProgress.value = true
-//    _showToast.value = false
-//    val pager = useCases.invoke(page, sortBy).flow.cachedIn(viewModelScope)
-//    _showProgress.value = false
-//    return pager
-//}
 
     fun setMovieFavoriteOrNot(id: Long, isFavorite: Boolean) = viewModelScope.launch {
         _showProgress.value = true

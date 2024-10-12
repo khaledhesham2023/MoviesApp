@@ -5,11 +5,6 @@ import com.khaledamin.moviesapplication.data.remote.dto.MovieDTO
 import com.khaledamin.moviesapplication.domain.model.Movie
 
 interface MoviesRepo {
-//    suspend fun getPopularMovies(
-//        page: Int,
-//        sortBy: String,
-//        fetchFromRemote: Boolean = true,
-//    ): Flow<State<ArrayList<Movie>>>
 
     suspend fun setMovieFavoriteOrNot(
         id: Long,

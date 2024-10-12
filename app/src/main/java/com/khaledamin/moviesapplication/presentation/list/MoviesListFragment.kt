@@ -24,7 +24,7 @@ class MoviesListFragment :
     private val viewModel: MoviesListViewModel by viewModels()
 
     private var sortBy = "popularity.desc"
-    private lateinit var moviesAdapter: MoviesListAdapter
+    private lateinit var moviesAdapter: FavoritesAdapter
     private lateinit var tabsAdapter: TabsAdapter
     private lateinit var pagingAdapter: MoviesAdapter
     private var tabsList =
@@ -34,15 +34,9 @@ class MoviesListFragment :
             Tab(mapOf("Favorites" to "favorites"), false)
         )
 
-//        mapOf(
-//            "Most Popular" to "popularity.desc",
-//            "Highest Rated" to "vote_average.desc",
-//            "Favorites" to "favorites"
-//        )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        moviesAdapter = MoviesListAdapter(requireContext(), ArrayList(), this, this)
+        moviesAdapter = FavoritesAdapter(requireContext(), ArrayList(), this, this)
         tabsAdapter = TabsAdapter(tabsList, this)
         pagingAdapter = MoviesAdapter(callback = {
             findNavController().navigate(
@@ -83,13 +77,6 @@ class MoviesListFragment :
                     viewBinding.progressBar.visibility = View.GONE
                 }
             }
-//        viewModel.showMoviesByPaging.observe(viewLifecycleOwner) {
-//            try {
-//                pagingAdapter.submitData(lifecycle = lifecycle, pagingData = it)
-//            } catch (e:Exception){
-//                Toast.makeText(requireContext(),e.message,Toast.LENGTH_SHORT).show()
-//            }
-//        }
         }
 
         override fun onTabClicked(tab: Tab) {

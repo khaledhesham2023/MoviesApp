@@ -27,8 +27,6 @@ class MoviesAdapter(
                 getItem(layoutPosition)!!.isFavorite = !getItem(layoutPosition)!!.isFavorite
                 notifyItemChanged(layoutPosition)
                 buttonCallback.onFavoriteButtonClicked(getItem(layoutPosition)!!, getItem(layoutPosition)!!.isFavorite)
-//                val movie = getItem(layoutPosition)
-//                movie?.isFavorite = !movie?.isFavorite!!
             }
         }
     }

@@ -15,82 +15,6 @@ class MoviesRepoImpl @Inject constructor(
     private val dao: MoviesDao,
 ) : MoviesRepo {
 
-//    override suspend fun getPopularMovies(
-//        page: Int,
-//        sortBy: String,
-//        fetchFromRemote: Boolean,
-//    ): Flow<State<ArrayList<Movie>>> {
-//        var domainMovies = ArrayList<Movie>()
-//        return flow {
-//            val localMovies = dao.getMovies(sortBy)
-//            if (sortBy == "favorites") {
-//                val favorites = dao.getFavorites()
-//                val favoritesMap = favorites.associateBy { it.id }
-//                val favoriteMovies = favorites.map { favorite ->
-//                    val existingFavorite = favoritesMap[favorite.id]
-//                    favorite.toMovie(existingFavorite)
-//                }.toCollection(ArrayList())
-//                emit(State.Success(favoriteMovies))
-//                return@flow
-//            }
-//            if (localMovies.isEmpty() || fetchFromRemote) {
-//                val remoteMovies = try {
-//                    api.getMovies(page = page, sortBy = sortBy).results
-//                } catch (e: HttpException) {
-//                    e.printStackTrace()
-//                    emit(State.Error(message = e.message!!))
-//                    return@flow
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                    emit(State.Error(message = e.message!!))
-//                    return@flow
-//                }
-//                val localMoviesMap = localMovies.associateBy { it.id }
-//                val movies = remoteMovies!!.map { movie ->
-//                    val existingEntity = localMoviesMap[movie.id]
-//                    movie.toMovieEntity(existingEntity)
-//                }
-//                    .toCollection(ArrayList())
-//                dao.insertAll(movies)
-//                val databaseMoviesMap = movies.associateBy { it.id }
-//                domainMovies = movies.map {
-//                    val existingMovie = databaseMoviesMap[it.id]
-//                    it.toMovie(existingMovie)
-//                }.toCollection(ArrayList())
-//                emit(State.Success(domainMovies))
-//                return@flow
-//            }
-//            emit(State.Success(domainMovies))
-//
-//
-////            val movies = dao.getPopularMovies()
-////            val isDbEmpty = movies.isEmpty()
-////            val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote
-////            if (shouldJustLoadFromCache) {
-////                emit(State.Success(movies.map { it.toMovie() }.toCollection(ArrayList())))
-////                return@flow
-////            }
-////            val networkMovies = try {
-////                api.getMovies(page = page, sortBy = sortBy).results
-////            } catch (e: HttpException) {
-////                e.printStackTrace()
-////                emit(State.Error(message = e.message!!))
-////                return@flow
-////            } catch (e: IOException) {
-////                e.printStackTrace()
-////                emit(State.Error(message = e.message!!))
-////                return@flow
-////            }
-////            networkMovies?.let { movieDTOS ->
-////                dao.clearAll()
-////                val moviesToInsert =
-////                    movieDTOS.map { movieDTO -> movieDTO.toMovieEntity() }.toCollection(ArrayList())
-////                dao.insertAll(moviesToInsert)
-////                Log.i("TAG", dao.getPopularMovies()[0].title!!)
-////                emit(State.Success(moviesToInsert.map { it.toMovie() }.toCollection(ArrayList())))
-////            }
-//        }
-//    }
 
     override suspend fun setMovieFavoriteOrNot(id: Long, isFavorite: Boolean) {
         dao.setFavoriteOrNot(id, isFavorite)
@@ -117,14 +41,4 @@ class MoviesRepoImpl @Inject constructor(
             val existingMovie = localMoviesMap[it.id]
             it.toMovie(existingMovie) }.toCollection(ArrayList())
     }
-
-//    override fun getMoviesByPaging(sortBy: String, fetchFromRemote: Boolean): LiveData<PagingData<Movie>> {
-//        return Pager(
-//            config = PagingConfig(
-//                pageSize = 10,
-//                maxSize = 50
-//            ),
-//            pagingSourceFactory = { MoviesPagingSource(api, dao, sortBy, fetchFromRemote = fetchFromRemote) }
-//        ).liveData
-//    }
 }
