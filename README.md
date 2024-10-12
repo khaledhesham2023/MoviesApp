@@ -23,4 +23,4 @@ these movies to favorites.
 7. Kotlin Coroutines.
 8. MVVM & LiveData.
 9. Room for local cache.
-10. https://developer.themoviedb.org/ for API calls
+10. https://developer.themoviedb.org/ for API calls.
