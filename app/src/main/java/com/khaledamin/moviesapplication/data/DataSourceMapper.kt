@@ -22,7 +22,7 @@ fun MovieDTO.toMovieEntity(existingEntity: MovieEntity?): MovieEntity {
     )
 }
 
-fun MovieEntity.toMovie(existingMovie:MovieEntity? = null): Movie {
+fun MovieEntity.toMovie(): Movie {
     return Movie(
         id = id,
         adult = adult,
@@ -36,7 +36,7 @@ fun MovieEntity.toMovie(existingMovie:MovieEntity? = null): Movie {
         title = title,
         voteAverage = voteAverage,
         voteCount = voteCount,
-        isFavorite = existingMovie?.isFavorite ?: false
+        isFavorite = isFavorite
     )
 }
 fun MovieDTO.toMovie(existingMovie: MovieEntity?): Movie {

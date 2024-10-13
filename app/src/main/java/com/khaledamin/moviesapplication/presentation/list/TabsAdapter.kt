@@ -7,15 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.khaledamin.moviesapplication.R
 import com.khaledamin.moviesapplication.databinding.ItemTabBinding
+import com.khaledamin.moviesapplication.presentation.callbacks.TabCallback
 import com.khaledamin.moviesapplication.presentation.model.Tab
 
 class TabsAdapter(private val data:ArrayList<Tab>, private val callback: TabCallback) : Adapter<TabsAdapter.TabsViewHolder>() {
 
-    private var selectedTabPosition = -1
+    private var selectedTabPosition = 0
 
     inner class TabsViewHolder(val binding: ItemTabBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
+            data[selectedTabPosition].isSelected = true
             binding.root.setOnClickListener {
                 val position = layoutPosition
                 if (selectedTabPosition != position){

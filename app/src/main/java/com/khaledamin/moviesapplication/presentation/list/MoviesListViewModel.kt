@@ -1,6 +1,5 @@
 package com.khaledamin.moviesapplication.presentation.list
 
-//import com.khaledamin.moviesapplication.domain.usecases.GetMoviesUseCases
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,20 +33,38 @@ class MoviesListViewModel @Inject constructor(
     val showToast: LiveData<String>
         get() = _showToast
 
+    private val _setFavoriteLiveData = MutableLiveData<Boolean>()
+    val setFavoriteLiveData: LiveData<Boolean>
+        get() = _setFavoriteLiveData
+
     fun getMoviesByPaging(sortBy: String, fetchFromRemote: Boolean): LiveData<PagingData<Movie>> {
+        var pager: LiveData<PagingData<Movie>>? = null
         _showProgress.value = true
-        val pager = pagingUseCases.invoke(sortBy, fetchFromRemote).liveData
-        _showProgress.value = false
-        return pager
+        viewModelScope.launch {
+            _showProgress.value = true
+            pager = pagingUseCases.invoke(sortBy, fetchFromRemote).liveData
+            _showProgress.value = false
+
+        }
+        return pager!!
     }
 
     fun getFavoriteMovies() = viewModelScope.launch {
+        _showProgress.value = true
         _favoriteMoviesList.value = favoriteMoviesUseCase.invoke()
+        _showProgress.value = false
     }
 
     fun setMovieFavoriteOrNot(id: Long, isFavorite: Boolean) = viewModelScope.launch {
-        _showProgress.value = true
-        favoriteUseCase.invoke(id, isFavorite)
+        try {
+            _showProgress.value = true
+            favoriteUseCase.invoke(id, isFavorite)
+            _setFavoriteLiveData.postValue(true)
+            _showProgress.value = false
+        } catch (e:Exception){
+            _setFavoriteLiveData.postValue(false)
+            _showProgress.value = false
+        }
         _showProgress.value = false
     }
 }

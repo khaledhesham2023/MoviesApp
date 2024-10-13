@@ -9,7 +9,7 @@ interface MoviesRepo {
     suspend fun setMovieFavoriteOrNot(
         id: Long,
         isFavorite: Boolean,
-    )
+    ) : Int
 
     suspend fun getMoviesFromRemoteSource(page: Int, sortBy: String): ArrayList<MovieDTO>
 

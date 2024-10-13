@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.khaledamin.moviesapplication.R
 import com.khaledamin.moviesapplication.databinding.ItemMovieBinding
 import com.khaledamin.moviesapplication.domain.model.Movie
+import com.khaledamin.moviesapplication.presentation.callbacks.MovieCallback
+import com.khaledamin.moviesapplication.presentation.callbacks.MovieFavoriteButtonCallback
 
 class FavoritesAdapter(
     val context: Context,
@@ -27,10 +29,10 @@ class FavoritesAdapter(
             binding.favoriteBtn.setOnClickListener {
                 buttonCallback.onFavoriteButtonClicked(
                     oldList[layoutPosition],
-                    false
+                    !oldList[layoutPosition].isFavorite
                 )
-
             }
+
         }
     }
 

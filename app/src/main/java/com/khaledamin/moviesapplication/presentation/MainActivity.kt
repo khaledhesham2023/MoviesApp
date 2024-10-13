@@ -1,6 +1,7 @@
 package com.khaledamin.moviesapplication.presentation
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         appBarConfiguration = AppBarConfiguration.Builder(R.id.moviesListFragment).build()
         setSupportActionBar(viewBinding.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.midnight_blue)
 
     }
 

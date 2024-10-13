@@ -24,7 +24,7 @@ interface MoviesDao {
     suspend fun clearAll()
 
     @Query(value = "UPDATE movies SET isFavorite = :isFavorite WHERE id = :id")
-    suspend fun setFavoriteOrNot(id: Long, isFavorite: Boolean)
+    suspend fun setFavoriteOrNot(id: Long, isFavorite: Boolean): Int
 
     @Query(value = "SELECT * FROM movies WHERE isFavorite = 1")
     suspend fun getFavorites(): List<MovieEntity>

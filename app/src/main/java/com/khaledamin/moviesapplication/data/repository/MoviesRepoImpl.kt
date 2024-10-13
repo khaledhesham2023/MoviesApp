@@ -16,8 +16,8 @@ class MoviesRepoImpl @Inject constructor(
 ) : MoviesRepo {
 
 
-    override suspend fun setMovieFavoriteOrNot(id: Long, isFavorite: Boolean) {
-        dao.setFavoriteOrNot(id, isFavorite)
+    override suspend fun setMovieFavoriteOrNot(id: Long, isFavorite: Boolean): Int {
+        return dao.setFavoriteOrNot(id, isFavorite)
     }
 
     override suspend fun getMoviesFromRemoteSource(page: Int, sortBy: String): ArrayList<MovieDTO> {
@@ -25,7 +25,8 @@ class MoviesRepoImpl @Inject constructor(
         val localMoviesMap = dao.getMovies(sortBy).associateBy { it.id }
         dao.insertAll(movies.map {
             val existingMovie = localMoviesMap[it.id]
-            it.toMovieEntity(existingMovie) }.toCollection(ArrayList()))
+            it.toMovieEntity(existingMovie)
+        }.toCollection(ArrayList()))
         return movies
     }
 
@@ -36,9 +37,8 @@ class MoviesRepoImpl @Inject constructor(
 
     override suspend fun getFavorites(): ArrayList<Movie> {
         val localMovies = dao.getFavorites()
-        val localMoviesMap = dao.getFavorites().associateBy { it.id }
         return localMovies.map {
-            val existingMovie = localMoviesMap[it.id]
-            it.toMovie(existingMovie) }.toCollection(ArrayList())
+            it.toMovie()
+        }.toCollection(ArrayList())
     }
 }

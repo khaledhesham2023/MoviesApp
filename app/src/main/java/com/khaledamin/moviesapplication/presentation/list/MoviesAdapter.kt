@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.khaledamin.moviesapplication.R
 import com.khaledamin.moviesapplication.databinding.ItemMovieBinding
 import com.khaledamin.moviesapplication.domain.model.Movie
+import com.khaledamin.moviesapplication.presentation.callbacks.MovieFavoriteButtonCallback
 
 class MoviesAdapter(
     val callback: (Movie) -> Unit,
