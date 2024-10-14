@@ -6,7 +6,7 @@ these movies to favorites.
 
 ## Demo:
 
-![Demo Image](res/assets/demo.gif)
+![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/demo.gif)
 
 
 
