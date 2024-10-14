@@ -6,6 +6,7 @@ these movies to favorites.
 
 ## Demo:
 
+![Alt Text](assets/Animation.gif)
 
 
 
