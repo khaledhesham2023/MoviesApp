@@ -1,22 +1,22 @@
-# Movies App:
+# Movies App
 
 Movies App is a mobile application with features of showing a list of movies sorted according to
 either popularity or top-rated movies, showing more details of the selected movie as well as adding
 these movies to favorites.
 
-## Demo:
+## Demo
 
 <p align="center">
 <img src="https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/demo.gif"/>
 </p>
 
-## Architecture:
+## Architecture
 
 Using concepts of [Clean architecture]((https://developer.android.com/topic/architecture)) by Uncle
 Bob.
 ![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/architecture.png)
 
-## Technologies:
+## Technologies
 
 1. [Kotlin Programming Language](https://kotlinlang.org/): The official programming language for
    android app development.
