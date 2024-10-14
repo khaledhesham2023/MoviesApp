@@ -6,7 +6,7 @@ these movies to favorites.
 
 ## Demo:
 
-```bash git add assets/your-gif-file.gif git commit -m "Add GIF for README" git push origin main ```
+![Alt Text](assets/demo.gif)
 
 
 
