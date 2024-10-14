@@ -4,6 +4,11 @@ Movies App is a mobile application with features of showing a list of movies sor
 either popularity or top-rated movies, showing more details of the selected movie as well as adding
 these movies to favorites.
 
+## Demo:
+
+
+
+
 ## Screenshots:
 
 ![WhatsApp Image 2024-10-13 at 12 41 37 AM (1)](https://github.com/user-attachments/assets/7e68c7d5-7754-42e6-ad00-1135c4f756ee)
