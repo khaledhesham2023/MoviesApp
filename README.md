@@ -11,23 +11,22 @@ these movies to favorites.
 
 
 
-## Screenshots:
+## Architecture:
 
-![WhatsApp Image 2024-10-13 at 12 41 37 AM (1)](https://github.com/user-attachments/assets/7e68c7d5-7754-42e6-ad00-1135c4f756ee)
-![WhatsApp Image 2024-10-13 at 12 41 37 AM](https://github.com/user-attachments/assets/7425e07d-5510-49e9-b9bc-0aa2af23d1a9)
-![WhatsApp Image 2024-10-13 at 12 41 37 AM (4)](https://github.com/user-attachments/assets/c32ef197-84e2-462b-8af6-c270e229b3b8)
-![WhatsApp Image 2024-10-13 at 12 41 37 AM (3)](https://github.com/user-attachments/assets/e33edcbd-1277-4ccc-93a2-22324da5e27a)
-![WhatsApp Image 2024-10-13 at 12 41 37 AM (2)](https://github.com/user-attachments/assets/625b1abd-2b05-4bc3-adb2-3eff87e7a477)
+Using concepts of clean architecture by uncle Bob.
+![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/demo.gif)
+
+
 
 ## Technologies:
 
-1. Clean Architecture.
-2. Retrofit.
-3. Glide.
-4. Paging 3.
-5. Navigation Component.
-6. DI (Dagger & Hilt).
-7. Kotlin Coroutines.
-8. MVVM & LiveData.
-9. Room for local cache.
+1. Clean Architecture: Using Uncle Bob's concepts of clean architecture. 
+2. Retrofit: A type-safe HTTP client used for API calls and mapping JSON response values into data classes properties.
+3. Glide: A library for loading image urls into ImageViews. 
+4. Paging 3: For displaying large datasets from either network or local cache into pages.
+5. Navigation Component: for navigation between fragments in a single activity.
+6. DI (Dagger & Hilt): For reducing boilerplate code and improving modularity of code by creating single instances that will be used across the entire application.
+7. Kotlin Coroutines: For running long-running tasks in background threads to reduce heavy load on main thread and avoid app freezing.
+8. MVVM & LiveData: For managing UI components state according to incoming data from data sources.
+9. Room for obtaining data from local cache.
 10. https://developer.themoviedb.org/ for API calls.
