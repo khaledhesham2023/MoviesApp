@@ -6,7 +6,9 @@ these movies to favorites.
 
 ## Demo:
 
+<p align="center">
 ![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/demo.gif)
+</p>
 
 
 ## Architecture:
