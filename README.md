@@ -6,7 +6,7 @@ these movies to favorites.
 
 ## Demo:
 
-![Demo Image](app/src/main/res/assets/demo.gif)
+![Demo Image](res/assets/demo.gif)
 
 
 
