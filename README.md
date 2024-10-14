@@ -14,7 +14,7 @@ these movies to favorites.
 ## Architecture:
 
 Using concepts of clean architecture by uncle Bob.
-![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/demo.gif)
+![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/architecture.png)
 
 
 
