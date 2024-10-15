@@ -17,7 +17,6 @@ class MoviesAdapter(
     val callback: (Movie) -> Unit,
     val buttonCallback: MovieFavoriteButtonCallback,
 ) : PagingDataAdapter<Movie, MoviesAdapter.MoviesViewHolder>(COMPARATOR) {
-    @RequiresApi(Build.VERSION_CODES.M)
     inner class MoviesViewHolder(val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {

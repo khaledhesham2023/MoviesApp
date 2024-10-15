@@ -2,11 +2,13 @@ package com.khaledamin.moviesapplication.app
 
 import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.khaledamin.moviesapplication.BuildConfig
 import com.khaledamin.moviesapplication.data.local.MoviesDB
 import com.khaledamin.moviesapplication.data.local.MoviesDao
 import com.khaledamin.moviesapplication.data.repository.MoviesRepoImpl
 import com.khaledamin.moviesapplication.data.remote.MoviesApi
+import com.khaledamin.moviesapplication.data.remote.NetworkUtil
 import com.khaledamin.moviesapplication.domain.repository.MoviesRepo
 import dagger.Module
 import dagger.Provides
@@ -57,7 +59,12 @@ class AppModule : Application() {
     @Provides
     @Singleton
     fun provideMoviesDB(@ApplicationContext context: Context): MoviesDB =
-        MoviesDB.getDatabase(context)
+        Room.databaseBuilder(
+            context.applicationContext,
+            MoviesDB::class.java,
+            "movies_db"
+        ).fallbackToDestructiveMigration()
+            .build()
 
     @Provides
     @Singleton
@@ -65,6 +72,10 @@ class AppModule : Application() {
 
     @Provides
     @Singleton
-    fun provideRepo(api: MoviesApi, dao: MoviesDao): MoviesRepo = MoviesRepoImpl(api, dao)
+    fun provideRepo(api: MoviesApi, dao: MoviesDao, networkUtil: NetworkUtil): MoviesRepo = MoviesRepoImpl(api, dao, networkUtil)
+
+    @Provides
+    @Singleton
+    fun provideNetworkUtil(@ApplicationContext context: Context): NetworkUtil = NetworkUtil(context)
 
 }

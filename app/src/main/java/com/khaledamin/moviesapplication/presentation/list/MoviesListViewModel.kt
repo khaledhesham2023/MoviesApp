@@ -10,6 +10,9 @@ import com.khaledamin.moviesapplication.domain.model.Movie
 import com.khaledamin.moviesapplication.domain.usecases.GetFavoriteMoviesUseCase
 import com.khaledamin.moviesapplication.domain.usecases.GetMoviesByPagingUseCases
 import com.khaledamin.moviesapplication.domain.usecases.SetMovieFavoriteUseCase
+import com.khaledamin.moviesapplication.data.remote.NetworkUtil
+import com.khaledamin.moviesapplication.domain.usecases.NetworkConnectionUseCase
+import com.khaledamin.moviesapplication.utils.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,10 +22,11 @@ class MoviesListViewModel @Inject constructor(
     private val favoriteUseCase: SetMovieFavoriteUseCase,
     private val pagingUseCases: GetMoviesByPagingUseCases,
     private val favoriteMoviesUseCase: GetFavoriteMoviesUseCase,
+    private val networkUseCase: NetworkConnectionUseCase,
 ) : ViewModel() {
 
-    private var _favoriteMoviesList = MutableLiveData<ArrayList<Movie>>()
-    val favoriteMoviesList: LiveData<ArrayList<Movie>>
+    private var _favoriteMoviesList = MutableLiveData<State<ArrayList<Movie>>>()
+    val favoriteMoviesList: LiveData<State<ArrayList<Movie>>>
         get() = _favoriteMoviesList
 
     private val _showProgress = MutableLiveData<Boolean>()
@@ -49,10 +53,17 @@ class MoviesListViewModel @Inject constructor(
         return pager!!
     }
 
-    fun getFavoriteMovies() = viewModelScope.launch {
-        _showProgress.value = true
-        _favoriteMoviesList.value = favoriteMoviesUseCase.invoke()
-        _showProgress.value = false
+    fun getFavoriteMovies() {
+        _favoriteMoviesList.value = State.Loading()
+        viewModelScope.launch {
+            try {
+                val response = favoriteMoviesUseCase.invoke()
+                _favoriteMoviesList.value = State.Success(data = response)
+                _showProgress.value = false
+            } catch (e: Exception) {
+                _favoriteMoviesList.value = State.Error(message = e.message!!)
+            }
+        }
     }
 
     fun setMovieFavoriteOrNot(id: Long, isFavorite: Boolean) = viewModelScope.launch {
@@ -61,10 +72,14 @@ class MoviesListViewModel @Inject constructor(
             favoriteUseCase.invoke(id, isFavorite)
             _setFavoriteLiveData.postValue(true)
             _showProgress.value = false
-        } catch (e:Exception){
+        } catch (e: Exception) {
             _setFavoriteLiveData.postValue(false)
             _showProgress.value = false
         }
         _showProgress.value = false
+    }
+
+    fun checkNetworkConnection(): Boolean {
+        return networkUseCase.checkNetworkConnection()
     }
 }

@@ -7,5 +7,5 @@ class SetMovieFavoriteUseCase @Inject constructor(
     private val moviesRepo: MoviesRepo,
 ) {
     suspend fun invoke(id: Long, isFavorite: Boolean) =
-        moviesRepo.setMovieFavoriteOrNot(id, isFavorite)
+        moviesRepo.setFavoriteState(id, isFavorite)
 }

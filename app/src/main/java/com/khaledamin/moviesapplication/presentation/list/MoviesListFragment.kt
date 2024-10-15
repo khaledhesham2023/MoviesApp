@@ -14,7 +14,7 @@ import com.khaledamin.moviesapplication.presentation.callbacks.MovieCallback
 import com.khaledamin.moviesapplication.presentation.callbacks.MovieFavoriteButtonCallback
 import com.khaledamin.moviesapplication.presentation.callbacks.TabCallback
 import com.khaledamin.moviesapplication.presentation.model.Tab
-import com.khaledamin.moviesapplication.utils.NetworkUtil
+import com.khaledamin.moviesapplication.utils.State
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -64,7 +64,7 @@ class MoviesListFragment :
             viewModel.getFavoriteMovies()
         } else {
             viewBinding.moviesList.adapter = pagingAdapter
-            viewModel.getMoviesByPaging(sortBy, NetworkUtil.isInternetAvailable(requireContext()))
+            viewModel.getMoviesByPaging(sortBy, viewModel.checkNetworkConnection())
                 .observe(viewLifecycleOwner) {
                     pagingAdapter.submitData(lifecycle, it)
                 }
@@ -73,7 +73,17 @@ class MoviesListFragment :
 
     private fun setupObservers() {
         viewModel.favoriteMoviesList.observe(viewLifecycleOwner) {
-            moviesAdapter.updateData(it)
+            when(it){
+                is State.Loading -> {
+                    viewBinding.progressBar.visibility = View.VISIBLE
+                }
+                is State.Success -> {
+                    moviesAdapter.updateData(it.data!!)
+                }
+                is State.Error -> {
+                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                }
+            }
         }
         viewModel.showToast.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
@@ -103,7 +113,7 @@ class MoviesListFragment :
             viewBinding.moviesList.layoutManager = LinearLayoutManager(requireContext())
             viewModel.getMoviesByPaging(
                 sortBy,
-                NetworkUtil.isInternetAvailable(requireContext())
+                viewModel.checkNetworkConnection()
             )
                 .observe(viewLifecycleOwner) {
 
@@ -122,7 +132,6 @@ class MoviesListFragment :
 
     override fun onFavoriteButtonClicked(movie: Movie, isFavorite: Boolean) {
         viewModel.setMovieFavoriteOrNot(movie.id!!, isFavorite)
-        viewModel.getFavoriteMovies()
     }
 
     private fun getSortBy(tabsList: ArrayList<Tab>): String {

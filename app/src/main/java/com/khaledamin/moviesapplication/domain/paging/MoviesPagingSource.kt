@@ -21,12 +21,12 @@ class MoviesPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val page = params.key ?: 1
-            val response = if (fetchFromRemote) repo.getMoviesFromRemoteSource(page, sortBy)
+            val response = if (fetchFromRemote) repo.getMoviesFromRemote(page, sortBy)
                 .map { it ->
-                    val existingMovie = repo.getMoviesFromLocalCache(sortBy).associateBy { it.id }[it.id]
+                    val existingMovie = repo.getMoviesFromDatabase(sortBy).associateBy { it.id }[it.id]
                     it.toMovie(existingMovie)
                 } else{
-                    repo.getMoviesFromLocalCache(sortBy).map { it.toMovie() }
+                    repo.getMoviesFromDatabase(sortBy).map { it.toMovie() }
             }
             LoadResult.Page(
                 data = response,

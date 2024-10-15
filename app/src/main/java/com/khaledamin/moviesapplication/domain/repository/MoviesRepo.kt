@@ -6,15 +6,17 @@ import com.khaledamin.moviesapplication.domain.model.Movie
 
 interface MoviesRepo {
 
-    suspend fun setMovieFavoriteOrNot(
+    suspend fun setFavoriteState(
         id: Long,
         isFavorite: Boolean,
     ) : Int
 
-    suspend fun getMoviesFromRemoteSource(page: Int, sortBy: String): ArrayList<MovieDTO>
+    suspend fun getMoviesFromRemote(page: Int, sortBy: String): ArrayList<MovieDTO>
 
-    suspend fun getMoviesFromLocalCache(sortBy: String): ArrayList<MovieEntity>
+    suspend fun getMoviesFromDatabase(sortBy: String): ArrayList<MovieEntity>
 
-    suspend fun getFavorites() : ArrayList<Movie>
+    suspend fun getFavoritesList() : ArrayList<Movie>
+
+    fun checkConnection() : Boolean
 
 }

@@ -9,6 +9,6 @@ class GetFavoriteMoviesUseCase @Inject constructor(
 ) {
 
     suspend fun invoke(): ArrayList<Movie> {
-        return repo.getFavorites()
+        return repo.getFavoritesList()
     }
 }

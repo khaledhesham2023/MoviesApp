@@ -1,13 +1,15 @@
-package com.khaledamin.moviesapplication.utils
+package com.khaledamin.moviesapplication.data.remote
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-object NetworkUtil {
+class NetworkUtil @Inject constructor(private val context: Context) {
 
-    fun isInternetAvailable(context: Context): Boolean {
+    fun isInternetAvailable(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

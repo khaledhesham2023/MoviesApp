@@ -20,14 +20,11 @@ interface MoviesDao {
 """)
     suspend fun getMovies(sortBy: String): List<MovieEntity>
 
-    @Query(value = "DELETE FROM movies;")
-    suspend fun clearAll()
-
     @Query(value = "UPDATE movies SET isFavorite = :isFavorite WHERE id = :id")
-    suspend fun setFavoriteOrNot(id: Long, isFavorite: Boolean): Int
+    suspend fun setFavoriteState(id: Long, isFavorite: Boolean): Int
 
     @Query(value = "SELECT * FROM movies WHERE isFavorite = 1")
-    suspend fun getFavorites(): List<MovieEntity>
+    suspend fun getFavoritesList(): List<MovieEntity>
 
     @Query(value = "SELECT * FROM movies WHERE id = :id")
     suspend fun getMovieById(id: Long?): MovieEntity?
