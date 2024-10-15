@@ -7,14 +7,14 @@ these movies to favorites.
 ## Demo
 
 <p align="center">
-<img src="https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/demo.gif"/>
+<img src="https://github.com/khaledhesham2023/MoviesApp/blob/master/assets/demo.gif"/>
 </p>
 
 ## Architecture
 
 Using concepts of [Clean architecture]((https://developer.android.com/topic/architecture)) by Uncle
 Bob.
-![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/app/src/main/res/assets/architecture.png)
+![Demo Image](https://github.com/khaledhesham2023/MoviesApp/blob/master/assets/architecture.png)
 
 ## Technologies
 
