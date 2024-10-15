@@ -8,7 +8,7 @@ import com.khaledamin.moviesapplication.data.local.MoviesDB
 import com.khaledamin.moviesapplication.data.local.MoviesDao
 import com.khaledamin.moviesapplication.data.repository.MoviesRepoImpl
 import com.khaledamin.moviesapplication.data.remote.MoviesApi
-import com.khaledamin.moviesapplication.data.remote.NetworkUtil
+import com.khaledamin.moviesapplication.data.remote.NetworkState
 import com.khaledamin.moviesapplication.domain.repository.MoviesRepo
 import dagger.Module
 import dagger.Provides
@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule : Application() {
+class MoviesAppModule : Application() {
 
     @Provides
     @Singleton
@@ -72,10 +72,12 @@ class AppModule : Application() {
 
     @Provides
     @Singleton
-    fun provideRepo(api: MoviesApi, dao: MoviesDao, networkUtil: NetworkUtil): MoviesRepo = MoviesRepoImpl(api, dao, networkUtil)
+    fun provideRepo(api: MoviesApi, dao: MoviesDao, networkUtil: NetworkState): MoviesRepo =
+        MoviesRepoImpl(api, dao, networkUtil)
 
     @Provides
     @Singleton
-    fun provideNetworkUtil(@ApplicationContext context: Context): NetworkUtil = NetworkUtil(context)
+    fun provideNetworkUtil(@ApplicationContext context: Context): NetworkState =
+        NetworkState(context)
 
 }

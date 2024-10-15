@@ -13,12 +13,12 @@ import com.khaledamin.moviesapplication.domain.model.Movie
 import com.khaledamin.moviesapplication.presentation.callbacks.MovieCallback
 import com.khaledamin.moviesapplication.presentation.callbacks.MovieFavoriteButtonCallback
 
-class FavoritesAdapter(
+class FavoriteMoviesAdapter(
     val context: Context,
     val oldList: ArrayList<Movie>,
     val callback: MovieCallback,
     val buttonCallback: MovieFavoriteButtonCallback,
-) : Adapter<FavoritesAdapter.MoviesListViewHolder>() {
+) : Adapter<FavoriteMoviesAdapter.MoviesListViewHolder>() {
 
     inner class MoviesListViewHolder(val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {

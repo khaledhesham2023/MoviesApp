@@ -3,7 +3,7 @@ package com.khaledamin.moviesapplication.data.repository
 import com.khaledamin.moviesapplication.data.local.MovieEntity
 import com.khaledamin.moviesapplication.data.local.MoviesDao
 import com.khaledamin.moviesapplication.data.remote.MoviesApi
-import com.khaledamin.moviesapplication.data.remote.NetworkUtil
+import com.khaledamin.moviesapplication.data.remote.NetworkState
 import com.khaledamin.moviesapplication.data.remote.dto.MovieDTO
 import com.khaledamin.moviesapplication.data.toMovie
 import com.khaledamin.moviesapplication.data.toMovieEntity
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class MoviesRepoImpl @Inject constructor(
     private val api: MoviesApi,
     private val dao: MoviesDao,
-    private val networkUtil: NetworkUtil
+    private val networkState: NetworkState,
 ) : MoviesRepo {
 
 
@@ -45,6 +45,6 @@ class MoviesRepoImpl @Inject constructor(
     }
 
     override fun checkConnection(): Boolean {
-        return networkUtil.isInternetAvailable()
+        return networkState.isInternetAvailable()
     }
 }

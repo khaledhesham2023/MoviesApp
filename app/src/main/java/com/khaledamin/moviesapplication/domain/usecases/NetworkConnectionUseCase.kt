@@ -4,7 +4,7 @@ import com.khaledamin.moviesapplication.domain.repository.MoviesRepo
 import javax.inject.Inject
 
 class NetworkConnectionUseCase @Inject constructor(
-    private val repo: MoviesRepo
+    private val repo: MoviesRepo,
 ) {
-    fun checkNetworkConnection():Boolean = repo.checkConnection()
+    fun checkNetworkConnection(): Boolean = repo.checkConnection()
 }

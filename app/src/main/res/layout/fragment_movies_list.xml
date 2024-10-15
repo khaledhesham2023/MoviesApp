@@ -33,14 +33,14 @@
             app:layout_constraintTop_toBottomOf="@+id/tabs_list" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/empty_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/empty_list"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@id/moviesList"
-            app:layout_constraintTop_toTopOf="@id/moviesList"
             app:layout_constraintBottom_toBottomOf="@id/moviesList"
-            app:layout_constraintEnd_toEndOf="@id/moviesList">
+            app:layout_constraintEnd_toEndOf="@id/moviesList"
+            app:layout_constraintStart_toStartOf="@id/moviesList"
+            app:layout_constraintTop_toTopOf="@id/moviesList">
 
             <ImageView
                 android:id="@+id/empty_image"
@@ -53,17 +53,17 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/empty_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/empty_text"
-                android:text="@string/no_movies"
-                android:textSize="20sp"
                 android:layout_marginTop="8dp"
+                android:text="@string/no_movies"
                 android:textColor="@color/silver"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/empty_image"
+                app:layout_constraintEnd_toEndOf="@id/empty_image"
                 app:layout_constraintStart_toStartOf="@id/empty_image"
-                app:layout_constraintEnd_toEndOf="@id/empty_image"/>
+                app:layout_constraintTop_toBottomOf="@id/empty_image" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

@@ -21,79 +21,79 @@
             tools:context=".presentation.details.MovieDetailsFragment">
 
             <ImageView
+                android:id="@+id/movie_poster"
+                imgUrl="@{movie.backdropPath}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:contentDescription="@{movie.title}"
                 app:layout_constraintDimensionRatio="5:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/movie_poster"
-                imgUrl="@{movie.backdropPath}" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="0dp"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
                 android:id="@+id/movie_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:text="@{movie.title}"
-                app:layout_constraintTop_toBottomOf="@id/movie_poster"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textAlignment="center"
                 android:textColor="@color/silver"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:layout_margin="8dp"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/movie_poster" />
 
             <TextView
-                android:layout_width="0dp"
-                android:textAlignment="textStart"
-                android:layout_height="wrap_content"
                 android:id="@+id/overview_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:text="@string/overview"
-                app:layout_constraintTop_toBottomOf="@id/movie_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textAlignment="textStart"
                 android:textColor="@color/silver"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:text="@string/overview"
-                android:layout_margin="8dp"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/movie_title"
+                tools:text="@string/overview" />
 
             <TextView
-                android:layout_width="0dp"
-                android:textAlignment="textStart"
-                android:layout_height="wrap_content"
                 android:id="@+id/overview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:text="@{movie.overview}"
-                app:layout_constraintTop_toBottomOf="@id/overview_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textAlignment="textStart"
                 android:textColor="@color/deep_blue"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_margin="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:textAlignment="textStart"
-                android:layout_height="wrap_content"
-                android:id="@+id/language_label"
-                android:text="@string/language"
-                app:layout_constraintTop_toBottomOf="@id/overview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/silver"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="@string/language"
-                android:layout_margin="8dp"/>
+                app:layout_constraintTop_toBottomOf="@id/overview_label" />
 
             <TextView
-                android:id="@+id/language"
+                android:id="@+id/language_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:text="@string/language"
+                android:textAlignment="textStart"
+                android:textColor="@color/silver"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/overview"
+                tools:text="@string/language" />
+
+            <TextView
+                android:id="@+id/language"
                 lng="@{movie.originalLanguage}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:textColor="@color/deep_blue"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -101,19 +101,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/language_label"
                 app:layout_constraintTop_toTopOf="@id/language_label" />
+
             <TextView
-                android:layout_width="wrap_content"
-                android:textAlignment="textStart"
-                android:layout_height="wrap_content"
                 android:id="@+id/release_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:text="@string/release_date"
-                app:layout_constraintTop_toBottomOf="@id/language_label"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAlignment="textStart"
                 android:textColor="@color/silver"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:text="@string/release_date"
-                android:layout_margin="8dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/language_label"
+                tools:text="@string/release_date" />
 
             <TextView
                 android:id="@+id/release_date"
@@ -139,7 +140,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/release_date_label"/>
+                app:layout_constraintTop_toBottomOf="@id/release_date_label" />
 
             <TextView
                 android:id="@+id/rate"
@@ -165,14 +166,14 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rate_label"/>
+                app:layout_constraintTop_toBottomOf="@id/rate_label" />
 
             <TextView
                 android:id="@+id/restricted_content"
+                restricted="@{movie.adult}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                restricted="@{movie.adult}"
                 android:textColor="@color/deep_blue"
                 android:textSize="20sp"
                 android:textStyle="bold"

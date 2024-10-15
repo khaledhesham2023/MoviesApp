@@ -15,7 +15,8 @@ import java.util.Locale
 
 @BindingAdapter("imgUrl")
 fun convertUrlToImage(imageView: ImageView, url: String?) {
-    Glide.with(imageView.context).load("https://image.tmdb.org/t/p/w500/$url").placeholder(R.drawable.ic_app).into(imageView)
+    Glide.with(imageView.context).load("https://image.tmdb.org/t/p/w500/$url")
+        .placeholder(R.drawable.ic_app).into(imageView)
 }
 
 @BindingAdapter("lng")
@@ -38,22 +39,23 @@ fun convertBooleanToRestrictedContent(textView: TextView, adult: Boolean) {
 @RequiresApi(Build.VERSION_CODES.M)
 @BindingAdapter("favorite")
 fun setFavoriteButton(button: Button, isFavorite: Boolean) {
-    if (isFavorite){
+    if (isFavorite) {
         button.text = button.context.getString(R.string.added_favorite)
         button.setTextColor(button.context.getColor(R.color.midnight_blue))
         button.backgroundTintList = ColorStateList.valueOf(button.context.getColor(R.color.silver))
     } else {
         button.text = button.context.getString(R.string.add_to_favorite)
         button.setTextColor(button.context.getColor(R.color.silver))
-        button.backgroundTintList = ColorStateList.valueOf(button.context.getColor(R.color.midnight_blue))
+        button.backgroundTintList =
+            ColorStateList.valueOf(button.context.getColor(R.color.midnight_blue))
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.M)
 @BindingAdapter("tab")
-fun setTab(textView: TextView, tab: Tab){
+fun setTab(textView: TextView, tab: Tab) {
     textView.text = tab.title.keys.elementAt(0)
-    if (tab.isSelected){
+    if (tab.isSelected) {
         textView.setBackgroundColor(textView.context.getColor(R.color.silver))
         textView.setTextColor(textView.context.getColor(R.color.midnight_blue))
     } else {

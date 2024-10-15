@@ -39,6 +39,7 @@ fun MovieEntity.toMovie(): Movie {
         isFavorite = isFavorite
     )
 }
+
 fun MovieDTO.toMovie(existingMovie: MovieEntity?): Movie {
     return Movie(
         id = id,

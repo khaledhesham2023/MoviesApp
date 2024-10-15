@@ -9,9 +9,8 @@ import androidx.paging.liveData
 import com.khaledamin.moviesapplication.domain.model.Movie
 import com.khaledamin.moviesapplication.domain.usecases.GetFavoriteMoviesUseCase
 import com.khaledamin.moviesapplication.domain.usecases.GetMoviesByPagingUseCases
-import com.khaledamin.moviesapplication.domain.usecases.SetMovieFavoriteUseCase
-import com.khaledamin.moviesapplication.data.remote.NetworkUtil
 import com.khaledamin.moviesapplication.domain.usecases.NetworkConnectionUseCase
+import com.khaledamin.moviesapplication.domain.usecases.SetMovieFavoriteUseCase
 import com.khaledamin.moviesapplication.utils.State
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,8 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesListViewModel @Inject constructor(
-    private val favoriteUseCase: SetMovieFavoriteUseCase,
-    private val pagingUseCases: GetMoviesByPagingUseCases,
+    private val setFavoriteUseCase: SetMovieFavoriteUseCase,
+    private val pagedMoviesUseCases: GetMoviesByPagingUseCases,
     private val favoriteMoviesUseCase: GetFavoriteMoviesUseCase,
     private val networkUseCase: NetworkConnectionUseCase,
 ) : ViewModel() {
@@ -37,16 +36,16 @@ class MoviesListViewModel @Inject constructor(
     val showToast: LiveData<String>
         get() = _showToast
 
-    private val _setFavoriteLiveData = MutableLiveData<Boolean>()
-    val setFavoriteLiveData: LiveData<Boolean>
+    private val _setFavoriteLiveData = MutableLiveData<State<Boolean>>()
+    val setFavoriteLiveData: LiveData<State<Boolean>>
         get() = _setFavoriteLiveData
 
-    fun getMoviesByPaging(sortBy: String, fetchFromRemote: Boolean): LiveData<PagingData<Movie>> {
+    fun getMovies(sortBy: String, fetchFromRemote: Boolean): LiveData<PagingData<Movie>> {
         var pager: LiveData<PagingData<Movie>>? = null
         _showProgress.value = true
         viewModelScope.launch {
             _showProgress.value = true
-            pager = pagingUseCases.invoke(sortBy, fetchFromRemote).liveData
+            pager = pagedMoviesUseCases.invoke(sortBy, fetchFromRemote).liveData
             _showProgress.value = false
 
         }
@@ -66,17 +65,18 @@ class MoviesListViewModel @Inject constructor(
         }
     }
 
-    fun setMovieFavoriteOrNot(id: Long, isFavorite: Boolean) = viewModelScope.launch {
+    fun setFavoriteState(id: Long, isFavorite: Boolean) = viewModelScope.launch {
+        _setFavoriteLiveData.value = State.Loading()
         try {
             _showProgress.value = true
-            favoriteUseCase.invoke(id, isFavorite)
-            _setFavoriteLiveData.postValue(true)
-            _showProgress.value = false
+            setFavoriteUseCase.invoke(id, isFavorite)
+            _setFavoriteLiveData.postValue(State.Success(data = true))
         } catch (e: Exception) {
-            _setFavoriteLiveData.postValue(false)
+            _setFavoriteLiveData.postValue(State.Error(data = false, message = e.message!!))
+            _showToast.value = e.message
+        } finally {
             _showProgress.value = false
         }
-        _showProgress.value = false
     }
 
     fun checkNetworkConnection(): Boolean {

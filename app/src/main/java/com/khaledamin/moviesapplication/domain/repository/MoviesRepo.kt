@@ -9,14 +9,14 @@ interface MoviesRepo {
     suspend fun setFavoriteState(
         id: Long,
         isFavorite: Boolean,
-    ) : Int
+    ): Int
 
     suspend fun getMoviesFromRemote(page: Int, sortBy: String): ArrayList<MovieDTO>
 
     suspend fun getMoviesFromDatabase(sortBy: String): ArrayList<MovieEntity>
 
-    suspend fun getFavoritesList() : ArrayList<Movie>
+    suspend fun getFavoritesList(): ArrayList<Movie>
 
-    fun checkConnection() : Boolean
+    fun checkConnection(): Boolean
 
 }

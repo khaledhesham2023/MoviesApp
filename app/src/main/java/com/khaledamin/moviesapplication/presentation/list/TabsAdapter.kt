@@ -10,7 +10,8 @@ import com.khaledamin.moviesapplication.databinding.ItemTabBinding
 import com.khaledamin.moviesapplication.presentation.callbacks.TabCallback
 import com.khaledamin.moviesapplication.presentation.model.Tab
 
-class TabsAdapter(private val data:ArrayList<Tab>, private val callback: TabCallback) : Adapter<TabsAdapter.TabsViewHolder>() {
+class TabsAdapter(private val data: ArrayList<Tab>, private val callback: TabCallback) :
+    Adapter<TabsAdapter.TabsViewHolder>() {
 
     private var selectedTabPosition = 0
 
@@ -20,8 +21,8 @@ class TabsAdapter(private val data:ArrayList<Tab>, private val callback: TabCall
             data[selectedTabPosition].isSelected = true
             binding.root.setOnClickListener {
                 val position = layoutPosition
-                if (selectedTabPosition != position){
-                    data.forEachIndexed {index, tab ->
+                if (selectedTabPosition != position) {
+                    data.forEachIndexed { index, tab ->
                         tab.isSelected = index == position
                     }
                 }
@@ -34,7 +35,14 @@ class TabsAdapter(private val data:ArrayList<Tab>, private val callback: TabCall
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabsAdapter.TabsViewHolder {
-        return TabsViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_tab, parent, false))
+        return TabsViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.item_tab,
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: TabsAdapter.TabsViewHolder, position: Int) {

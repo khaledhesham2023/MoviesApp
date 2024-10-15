@@ -18,5 +18,5 @@ data class MovieEntity(
     val title: String?,
     val voteAverage: Double?,
     val voteCount: Int?,
-    val isFavorite:Boolean = false
+    val isFavorite: Boolean = false,
 )

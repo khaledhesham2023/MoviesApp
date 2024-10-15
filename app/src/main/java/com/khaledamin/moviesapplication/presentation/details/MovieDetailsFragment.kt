@@ -18,5 +18,5 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding>() {
         super.onViewCreated(view, savedInstanceState)
         movie = MovieDetailsFragmentArgs.fromBundle(requireArguments()).movie
         viewBinding.movie = movie
-        }
     }
+}

@@ -15,5 +15,5 @@ data class Movie(
     val title: String?,
     val voteAverage: Double?,
     val voteCount: Int?,
-    var isFavorite:Boolean = false
-): Serializable
+    var isFavorite: Boolean = false,
+) : Serializable

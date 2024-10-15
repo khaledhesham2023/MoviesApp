@@ -26,9 +26,9 @@ class MoviesListFragment :
 
     private val viewModel: MoviesListViewModel by viewModels()
 
-    private lateinit var moviesAdapter: FavoritesAdapter
+    private lateinit var moviesAdapter: FavoriteMoviesAdapter
     private lateinit var tabsAdapter: TabsAdapter
-    private lateinit var pagingAdapter: MoviesAdapter
+    private lateinit var pagingAdapter: PagedMoviesAdapter
     private var tabsList =
         arrayListOf(
             Tab(mapOf("Most Popular" to "popularity.desc"), false),
@@ -40,10 +40,10 @@ class MoviesListFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        moviesAdapter = FavoritesAdapter(requireContext(), ArrayList(), this, this)
+        moviesAdapter = FavoriteMoviesAdapter(requireContext(), ArrayList(), this, this)
         tabsAdapter = TabsAdapter(tabsList, this)
         sortBy = getSortBy(tabsList)
-        pagingAdapter = MoviesAdapter(callback = {
+        pagingAdapter = PagedMoviesAdapter(callback = {
             findNavController().navigate(
                 MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailsFragment(
                     it
@@ -64,7 +64,7 @@ class MoviesListFragment :
             viewModel.getFavoriteMovies()
         } else {
             viewBinding.moviesList.adapter = pagingAdapter
-            viewModel.getMoviesByPaging(sortBy, viewModel.checkNetworkConnection())
+            viewModel.getMovies(sortBy, viewModel.checkNetworkConnection())
                 .observe(viewLifecycleOwner) {
                     pagingAdapter.submitData(lifecycle, it)
                 }
@@ -73,15 +73,17 @@ class MoviesListFragment :
 
     private fun setupObservers() {
         viewModel.favoriteMoviesList.observe(viewLifecycleOwner) {
-            when(it){
+            when (it) {
                 is State.Loading -> {
                     viewBinding.progressBar.visibility = View.VISIBLE
                 }
+
                 is State.Success -> {
                     moviesAdapter.updateData(it.data!!)
                 }
+
                 is State.Error -> {
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -96,8 +98,19 @@ class MoviesListFragment :
             }
         }
         viewModel.setFavoriteLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                viewModel.getFavoriteMovies()
+            when (it) {
+                is State.Loading -> {
+                    viewBinding.progressBar.visibility = View.VISIBLE
+                }
+
+                is State.Success -> {
+                    viewBinding.progressBar.visibility = View.GONE
+                    viewModel.getFavoriteMovies()
+                }
+
+                is State.Error -> {
+                    viewBinding.progressBar.visibility = View.GONE
+                }
             }
         }
     }
@@ -111,7 +124,7 @@ class MoviesListFragment :
         } else {
             viewBinding.moviesList.adapter = pagingAdapter
             viewBinding.moviesList.layoutManager = LinearLayoutManager(requireContext())
-            viewModel.getMoviesByPaging(
+            viewModel.getMovies(
                 sortBy,
                 viewModel.checkNetworkConnection()
             )
@@ -131,7 +144,7 @@ class MoviesListFragment :
     }
 
     override fun onFavoriteButtonClicked(movie: Movie, isFavorite: Boolean) {
-        viewModel.setMovieFavoriteOrNot(movie.id!!, isFavorite)
+        viewModel.setFavoriteState(movie.id!!, isFavorite)
     }
 
     private fun getSortBy(tabsList: ArrayList<Tab>): String {

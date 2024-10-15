@@ -23,10 +23,11 @@ class MoviesPagingSource(
             val page = params.key ?: 1
             val response = if (fetchFromRemote) repo.getMoviesFromRemote(page, sortBy)
                 .map { it ->
-                    val existingMovie = repo.getMoviesFromDatabase(sortBy).associateBy { it.id }[it.id]
+                    val existingMovie =
+                        repo.getMoviesFromDatabase(sortBy).associateBy { it.id }[it.id]
                     it.toMovie(existingMovie)
-                } else{
-                    repo.getMoviesFromDatabase(sortBy).map { it.toMovie() }
+                } else {
+                repo.getMoviesFromDatabase(sortBy).map { it.toMovie() }
             }
             LoadResult.Page(
                 data = response,

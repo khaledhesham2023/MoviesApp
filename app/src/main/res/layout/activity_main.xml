@@ -20,12 +20,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/toolbar"
                 android:background="@color/midnight_blue"
-                app:titleTextColor="@color/silver"/>
+                app:titleTextColor="@color/silver" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
@@ -38,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:navGraph="@navigation/navigation"/>
+            app:navGraph="@navigation/navigation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

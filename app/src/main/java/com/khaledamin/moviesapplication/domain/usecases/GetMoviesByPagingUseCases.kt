@@ -11,7 +11,7 @@ class GetMoviesByPagingUseCases @Inject constructor(
     private val repo: MoviesRepo,
 ) {
 
-    fun invoke(sortBy: String, fetchFromRemote: Boolean):Pager<Int, Movie> {
+    fun invoke(sortBy: String, fetchFromRemote: Boolean): Pager<Int, Movie> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,

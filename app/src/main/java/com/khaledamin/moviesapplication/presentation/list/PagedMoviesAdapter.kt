@@ -13,10 +13,10 @@ import com.khaledamin.moviesapplication.databinding.ItemMovieBinding
 import com.khaledamin.moviesapplication.domain.model.Movie
 import com.khaledamin.moviesapplication.presentation.callbacks.MovieFavoriteButtonCallback
 
-class MoviesAdapter(
+class PagedMoviesAdapter(
     val callback: (Movie) -> Unit,
     val buttonCallback: MovieFavoriteButtonCallback,
-) : PagingDataAdapter<Movie, MoviesAdapter.MoviesViewHolder>(COMPARATOR) {
+) : PagingDataAdapter<Movie, PagedMoviesAdapter.MoviesViewHolder>(COMPARATOR) {
     inner class MoviesViewHolder(val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
@@ -26,7 +26,10 @@ class MoviesAdapter(
             binding.favoriteBtn.setOnClickListener {
                 getItem(layoutPosition)!!.isFavorite = !getItem(layoutPosition)!!.isFavorite
                 notifyItemChanged(layoutPosition)
-                buttonCallback.onFavoriteButtonClicked(getItem(layoutPosition)!!, getItem(layoutPosition)!!.isFavorite)
+                buttonCallback.onFavoriteButtonClicked(
+                    getItem(layoutPosition)!!,
+                    getItem(layoutPosition)!!.isFavorite
+                )
             }
         }
     }
