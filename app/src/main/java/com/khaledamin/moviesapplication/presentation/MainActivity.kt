@@ -13,6 +13,7 @@ import com.khaledamin.moviesapplication.R
 import com.khaledamin.moviesapplication.databinding.ActivityMainBinding
 import com.khaledamin.moviesapplication.presentation.abstracts.BaseActivity
 import com.khaledamin.moviesapplication.presentation.state.TabState
+import com.khaledamin.moviesapplication.presentation.tabs.TabSelectionListener
 import com.khaledamin.moviesapplication.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,7 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val tab = viewBinding.tabsList.newTab().setText(tabData.title)
             viewBinding.tabsList.addTab(tab)
         }
-        viewBinding.tabsList.addOnTabSelectedListener(object :TabSelectionListener(){
+        viewBinding.tabsList.addOnTabSelectedListener(object : TabSelectionListener(){
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
                     navController.navigate(MainActivityDirections.actionMainActivityToMoviesListFragment(TabState.entries[tab.position].sortBy))

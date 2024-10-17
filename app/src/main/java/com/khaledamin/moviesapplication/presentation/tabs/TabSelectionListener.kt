@@ -1,4 +1,4 @@
-package com.khaledamin.moviesapplication.presentation
+package com.khaledamin.moviesapplication.presentation.tabs
 
 import com.google.android.material.tabs.TabLayout
 
