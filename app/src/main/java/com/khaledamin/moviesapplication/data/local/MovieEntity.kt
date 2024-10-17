@@ -2,8 +2,9 @@ package com.khaledamin.moviesapplication.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.khaledamin.moviesapplication.utils.Constants
 
-@Entity(tableName = "movies")
+@Entity(tableName = Constants.TABLE_NAME)
 data class MovieEntity(
     @PrimaryKey(autoGenerate = false)
     val id: Long?,

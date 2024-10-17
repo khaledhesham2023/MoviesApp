@@ -10,6 +10,7 @@ import com.khaledamin.moviesapplication.data.repository.MoviesRepoImpl
 import com.khaledamin.moviesapplication.data.remote.MoviesApi
 import com.khaledamin.moviesapplication.data.remote.NetworkState
 import com.khaledamin.moviesapplication.domain.repository.MoviesRepo
+import com.khaledamin.moviesapplication.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +41,7 @@ class MoviesAppModule : Application() {
 
     @Provides
     @Singleton
-    fun provideBaseUrl(): String = "https://api.themoviedb.org/3/"
+    fun provideBaseUrl(): String = BuildConfig.BASE_URL
 
     @Provides
     @Singleton
@@ -50,7 +51,7 @@ class MoviesAppModule : Application() {
     @Singleton
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().addInterceptor {
         val request = it.request().newBuilder().addHeader(
-            "Authorization",
+            Constants.AUTHORIZATION_KEY,
             BuildConfig.API_KEY
         ).build()
         it.proceed(request)
@@ -62,7 +63,7 @@ class MoviesAppModule : Application() {
         Room.databaseBuilder(
             context.applicationContext,
             MoviesDB::class.java,
-            "movies_db"
+            name = Constants.DATABASE_NAME
         ).fallbackToDestructiveMigration()
             .build()
 
@@ -79,5 +80,4 @@ class MoviesAppModule : Application() {
     @Singleton
     fun provideNetworkUtil(@ApplicationContext context: Context): NetworkState =
         NetworkState(context)
-
 }

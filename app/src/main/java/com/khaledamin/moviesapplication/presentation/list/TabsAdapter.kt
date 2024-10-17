@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.khaledamin.moviesapplication.R
 import com.khaledamin.moviesapplication.databinding.ItemTabBinding
-import com.khaledamin.moviesapplication.presentation.callbacks.TabCallback
 import com.khaledamin.moviesapplication.presentation.model.Tab
 
-class TabsAdapter(private val data: ArrayList<Tab>, private val callback: TabCallback) :
+class TabsAdapter(private val data: ArrayList<Tab>,
+                  private val selectTab: (Tab) -> Unit) :
     Adapter<TabsAdapter.TabsViewHolder>() {
 
     private var selectedTabPosition = 0
@@ -29,7 +29,7 @@ class TabsAdapter(private val data: ArrayList<Tab>, private val callback: TabCal
                 notifyItemChanged(selectedTabPosition)
                 notifyItemChanged(position)
                 selectedTabPosition = position
-                callback.onTabClicked(data[layoutPosition])
+                selectTab.invoke(data[layoutPosition])
             }
         }
     }

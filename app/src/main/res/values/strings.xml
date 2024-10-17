@@ -12,4 +12,6 @@
     <string name="restricted_content">"Restricted Content: "</string>
     <string name="details">Movie Details</string>
     <string name="no_movies">No movies</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

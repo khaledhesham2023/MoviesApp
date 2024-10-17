@@ -5,6 +5,9 @@
     android:id="@+id/navigation"
     app:startDestination="@id/moviesListFragment">
 
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.khaledamin.moviesapplication.presentation.MainActivity" />
     <fragment
         android:id="@+id/moviesListFragment"
         android:name="com.khaledamin.moviesapplication.presentation.list.MoviesListFragment"
@@ -13,6 +16,10 @@
         <action
             android:id="@+id/action_moviesListFragment_to_movieDetailsFragment"
             app:destination="@id/movieDetailsFragment" />
+        <argument
+            android:name="sortBy"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -23,4 +30,7 @@
             android:name="movie"
             app:argType="com.khaledamin.moviesapplication.domain.model.Movie" />
     </fragment>
+    <action
+        android:id="@+id/action_mainActivity_to_moviesListFragment"
+        app:destination="@id/moviesListFragment" />
 </navigation>

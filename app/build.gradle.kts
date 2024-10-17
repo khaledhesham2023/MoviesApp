@@ -26,7 +26,11 @@ android {
         val properties = Properties()
         properties.load(FileInputStream(keyStoreFile))
         val apiKey = properties.getProperty("API_KEY") ?: ""
+        val baseUrl = properties.getProperty("BASE_URL") ?: ""
+        val imageUrl = properties.getProperty("IMAGE_URL") ?: ""
         buildConfigField("String", "API_KEY", apiKey)
+        buildConfigField("String","BASE_URL",baseUrl)
+        buildConfigField("String","IMAGE_URL", imageUrl)
     }
 
     buildTypes {

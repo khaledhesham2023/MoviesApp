@@ -17,29 +17,26 @@ class MoviesRepoImpl @Inject constructor(
     private val networkState: NetworkState,
 ) : MoviesRepo {
 
-
     override suspend fun setFavoriteState(id: Long, isFavorite: Boolean): Int {
         return dao.setFavoriteState(id, isFavorite)
     }
 
     override suspend fun getMoviesFromRemote(page: Int, sortBy: String): ArrayList<MovieDTO> {
-        val movies = api.getMovies(page = page, sortBy = sortBy).results!!
+        val movies = api.getMovies(page = page, sortBy = sortBy).results
         val localMoviesMap = dao.getMovies(sortBy).associateBy { it.id }
-        dao.insertAll(movies.map {
+        movies?.map {
             val existingMovie = localMoviesMap[it.id]
             it.toMovieEntity(existingMovie)
-        }.toCollection(ArrayList()))
-        return movies
+        }?.let { dao.insertAll(it.toCollection(ArrayList())) }
+        return movies ?: ArrayList()
     }
 
     override suspend fun getMoviesFromDatabase(sortBy: String): ArrayList<MovieEntity> {
-        val localMovies = dao.getMovies(sortBy).toCollection(ArrayList())
-        return localMovies
+        return dao.getMovies(sortBy).toCollection(ArrayList())
     }
 
     override suspend fun getFavoritesList(): ArrayList<Movie> {
-        val localMovies = dao.getFavoritesList()
-        return localMovies.map {
+        return dao.getFavoritesList().map {
             it.toMovie()
         }.toCollection(ArrayList())
     }

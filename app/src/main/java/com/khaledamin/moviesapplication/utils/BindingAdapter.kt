@@ -1,21 +1,20 @@
 package com.khaledamin.moviesapplication.utils
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.os.Build
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.khaledamin.moviesapplication.BuildConfig
 import com.khaledamin.moviesapplication.R
 import com.khaledamin.moviesapplication.presentation.model.Tab
 import java.util.Locale
 
 @BindingAdapter("imgUrl")
 fun convertUrlToImage(imageView: ImageView, url: String?) {
-    Glide.with(imageView.context).load("https://image.tmdb.org/t/p/w500/$url")
+    Glide.with(imageView.context).load("${BuildConfig.IMAGE_URL}$url")
         .placeholder(R.drawable.ic_app).into(imageView)
 }
 
@@ -26,40 +25,37 @@ fun convertCodeIntoLanguage(textView: TextView, code: String) {
 }
 
 
-@SuppressLint("SetTextI18n")
 @BindingAdapter("restricted")
 fun convertBooleanToRestrictedContent(textView: TextView, adult: Boolean) {
     if (adult) {
-        textView.text = "Yes"
+        textView.text = ContextCompat.getString(textView.context, R.string.yes)
     } else {
-        textView.text = "No"
+        textView.text = ContextCompat.getString(textView.context, R.string.no)
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
 @BindingAdapter("favorite")
 fun setFavoriteButton(button: Button, isFavorite: Boolean) {
     if (isFavorite) {
         button.text = button.context.getString(R.string.added_favorite)
-        button.setTextColor(button.context.getColor(R.color.midnight_blue))
-        button.backgroundTintList = ColorStateList.valueOf(button.context.getColor(R.color.silver))
+        button.setTextColor(ContextCompat.getColor(button.context,R.color.midnight_blue))
+        button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(button.context,R.color.silver))
     } else {
         button.text = button.context.getString(R.string.add_to_favorite)
-        button.setTextColor(button.context.getColor(R.color.silver))
+        button.setTextColor(ContextCompat.getColor(button.context,R.color.silver))
         button.backgroundTintList =
-            ColorStateList.valueOf(button.context.getColor(R.color.midnight_blue))
+            ColorStateList.valueOf(ContextCompat.getColor(button.context,R.color.midnight_blue))
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.M)
 @BindingAdapter("tab")
 fun setTab(textView: TextView, tab: Tab) {
     textView.text = tab.title.keys.elementAt(0)
     if (tab.isSelected) {
-        textView.setBackgroundColor(textView.context.getColor(R.color.silver))
-        textView.setTextColor(textView.context.getColor(R.color.midnight_blue))
+        textView.setBackgroundColor(ContextCompat.getColor(textView.context,R.color.silver))
+        textView.setTextColor(ContextCompat.getColor(textView.context,R.color.midnight_blue))
     } else {
-        textView.setBackgroundColor(textView.context.getColor(R.color.midnight_blue))
-        textView.setTextColor(textView.context.getColor(R.color.silver))
+        textView.setBackgroundColor(ContextCompat.getColor(textView.context, R.color.midnight_blue))
+        textView.setTextColor(ContextCompat.getColor(textView.context, R.color.silver))
     }
 }
