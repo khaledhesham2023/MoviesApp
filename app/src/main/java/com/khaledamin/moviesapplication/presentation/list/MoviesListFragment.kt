@@ -3,14 +3,19 @@ package com.khaledamin.moviesapplication.presentation.list
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.khaledamin.moviesapplication.R
 import com.khaledamin.moviesapplication.databinding.FragmentMoviesListBinding
 import com.khaledamin.moviesapplication.presentation.abstracts.BaseFragment
 import com.khaledamin.moviesapplication.presentation.state.TabState
 import com.khaledamin.moviesapplication.utils.State
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MoviesListFragment : BaseFragment<FragmentMoviesListBinding>() {
@@ -32,6 +37,22 @@ class MoviesListFragment : BaseFragment<FragmentMoviesListBinding>() {
         setupObservers()
         sortBy = MoviesListFragmentArgs.fromBundle(requireArguments()).sortBy
         configureMovieList(sortBy)
+        lifecycleScope.launch {
+            pagingAdapter.loadStateFlow.collectLatest { loadState ->
+                viewBinding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.source.refresh as? LoadState.Error
+                errorState?.let {
+                    Toast.makeText(
+                        requireContext(),
+                        it.error.message ?: getString(R.string.unknown_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun setupObservers() {
@@ -77,6 +98,7 @@ class MoviesListFragment : BaseFragment<FragmentMoviesListBinding>() {
             }
         }
     }
+
     private fun setupAdapters() {
         moviesAdapter = FavoriteMoviesAdapter(oldList = ArrayList(), navigator = { movie ->
             findNavController().navigate(
@@ -106,6 +128,7 @@ class MoviesListFragment : BaseFragment<FragmentMoviesListBinding>() {
                 viewBinding.moviesList.adapter = moviesAdapter
                 viewModel.getFavoriteMovies()
             }
+
             else -> {
                 viewBinding.moviesList.adapter = pagingAdapter
                 viewModel.getMovies(sortBy, viewModel.checkNetworkConnection())

@@ -13,6 +13,7 @@ import com.khaledamin.moviesapplication.domain.usecases.NetworkConnectionUseCase
 import com.khaledamin.moviesapplication.domain.usecases.SetMovieFavoriteUseCase
 import com.khaledamin.moviesapplication.utils.State
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +24,7 @@ class MoviesListViewModel @Inject constructor(
     private val favoriteMoviesUseCase: GetFavoriteMoviesUseCase,
     private val networkUseCase: NetworkConnectionUseCase,
 ) : ViewModel() {
+
 
     private var _favoriteMoviesList = MutableLiveData<State<ArrayList<Movie>>>()
     val favoriteMoviesList: LiveData<State<ArrayList<Movie>>>
@@ -54,32 +56,37 @@ class MoviesListViewModel @Inject constructor(
 
     fun getFavoriteMovies() {
         _favoriteMoviesList.value = State.Loading()
-        viewModelScope.launch {
+        viewModelScope.launch(provideExceptionHandler(_favoriteMoviesList)) {
             try {
                 val response = favoriteMoviesUseCase.invoke()
                 _favoriteMoviesList.value = State.Success(data = response)
+            } finally {
                 _showProgress.value = false
-            } catch (e: Exception) {
-                _favoriteMoviesList.value = State.Error(message = e.message!!)
             }
         }
     }
 
-    fun setFavoriteState(id: Long, isFavorite: Boolean) = viewModelScope.launch {
-        _setFavoriteLiveData.value = State.Loading()
-        try {
-            _showProgress.value = true
-            setFavoriteUseCase.invoke(id, isFavorite)
-            _setFavoriteLiveData.postValue(State.Success(data = true))
-        } catch (e: Exception) {
-            _setFavoriteLiveData.postValue(State.Error(data = false, message = e.message!!))
-            _showToast.value = e.message
-        } finally {
-            _showProgress.value = false
+    fun setFavoriteState(id: Long, isFavorite: Boolean) =
+        viewModelScope.launch(provideExceptionHandler(_setFavoriteLiveData)) {
+            _setFavoriteLiveData.value = State.Loading()
+            try {
+                _showProgress.value = true
+                setFavoriteUseCase.invoke(id, isFavorite)
+                _setFavoriteLiveData.postValue(State.Success(data = true))
+            } finally {
+                _showProgress.value = false
+            }
         }
-    }
 
     fun checkNetworkConnection(): Boolean {
         return networkUseCase.checkNetworkConnection()
+    }
+
+    private fun <T> provideExceptionHandler(liveData: MutableLiveData<State<T>>): CoroutineExceptionHandler {
+        return CoroutineExceptionHandler { _, exception ->
+            _showProgress.value = false
+            _showToast.value = exception.message
+            liveData.value = State.Error(message = exception.message!!)
+        }
     }
 }
